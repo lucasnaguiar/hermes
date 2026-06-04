@@ -1,0 +1,79 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-transfer-schedule
+      author: lucas
+      changes:
+        - createTable:
+            tableName: transfer_schedule
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: source_account_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_transfer_schedule_source_account
+                    references: account(id)
+              - column:
+                  name: target_account_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_transfer_schedule_target_account
+                    references: account(id)
+              - column:
+                  name: transfer_amount
+                  type: DECIMAL(19,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: transfer_date
+                  type: DATE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: scheduling_date
+                  type: DATE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fingerprint
+                  type: VARCHAR(64)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: fee_amount
+                  type: DECIMAL(19,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fee_rate
+                  type: DECIMAL(5,4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fee_fixed_amount
+                  type: DECIMAL(19,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fee_days_range_from
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fee_days_range_to
+                  type: INT
+                  constraints:
+                    nullable: false

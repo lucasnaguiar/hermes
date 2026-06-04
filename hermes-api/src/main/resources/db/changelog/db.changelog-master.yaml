@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: changes/001-create-account.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changes/002-create-transfer-fee-rule.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changes/003-create-transfer-schedule.yaml
+      relativeToChangelogFile: true

@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: 001-create-account
+      id: 002-create-transfer-fee-rule
       author: lucas
       changes:
         - createTable:
-            tableName: account
+            tableName: transfer_fee_rule
             columns:
               - column:
                   name: id
@@ -13,18 +13,22 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: account_number
-                  type: VARCHAR(10)
+                  name: days_range_from
+                  type: INT
                   constraints:
                     nullable: false
-                    unique: true
               - column:
-                  name: balance
+                  name: days_range_to
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fixed_amount
                   type: DECIMAL(19,2)
                   constraints:
                     nullable: false
               - column:
-                  name: committed_balance
-                  type: DECIMAL(19,2)
+                  name: rate
+                  type: DECIMAL(5,4)
                   constraints:
                     nullable: false
