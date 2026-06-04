@@ -29,6 +29,6 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: rate
-                  type: DECIMAL(5,4)
+                  type: DECIMAL(5,2)
                   constraints:
                     nullable: false

@@ -8,3 +8,9 @@ databaseChangeLog:
   - include:
       file: changes/003-create-transfer-schedule.yaml
       relativeToChangelogFile: true
+  - include:
+      file: changes/004-seed-accounts.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changes/005-seed-transfer-fee-rules.yaml
+      relativeToChangelogFile: true

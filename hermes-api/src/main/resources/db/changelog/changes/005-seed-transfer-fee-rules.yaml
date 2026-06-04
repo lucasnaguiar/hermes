@@ -1,0 +1,118 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-seed-transfer-fee-rules
+      author: lucas
+      changes:
+        - insert:
+            tableName: transfer_fee_rule
+            columns:
+              - column:
+                  name: id
+                  value: 'f1e2d3c4-0001-0001-0001-000000000001'
+              - column:
+                  name: days_range_from
+                  valueNumeric: 0
+              - column:
+                  name: days_range_to
+                  valueNumeric: 0
+              - column:
+                  name: fixed_amount
+                  valueNumeric: 3.00
+              - column:
+                  name: rate
+                  valueNumeric: 2.50
+
+        - insert:
+            tableName: transfer_fee_rule
+            columns:
+              - column:
+                  name: id
+                  value: 'f1e2d3c4-0002-0002-0002-000000000002'
+              - column:
+                  name: days_range_from
+                  valueNumeric: 1
+              - column:
+                  name: days_range_to
+                  valueNumeric: 10
+              - column:
+                  name: fixed_amount
+                  valueNumeric: 12.00
+              - column:
+                  name: rate
+                  valueNumeric: 0.0000
+
+        - insert:
+            tableName: transfer_fee_rule
+            columns:
+              - column:
+                  name: id
+                  value: 'f1e2d3c4-0003-0003-0003-000000000003'
+              - column:
+                  name: days_range_from
+                  valueNumeric: 11
+              - column:
+                  name: days_range_to
+                  valueNumeric: 20
+              - column:
+                  name: fixed_amount
+                  valueNumeric: 0.00
+              - column:
+                  name: rate
+                  valueNumeric: 8.20
+
+        - insert:
+            tableName: transfer_fee_rule
+            columns:
+              - column:
+                  name: id
+                  value: 'f1e2d3c4-0004-0004-0004-000000000004'
+              - column:
+                  name: days_range_from
+                  valueNumeric: 21
+              - column:
+                  name: days_range_to
+                  valueNumeric: 30
+              - column:
+                  name: fixed_amount
+                  valueNumeric: 0.00
+              - column:
+                  name: rate
+                  valueNumeric: 6.90
+
+        - insert:
+            tableName: transfer_fee_rule
+            columns:
+              - column:
+                  name: id
+                  value: 'f1e2d3c4-0005-0005-0005-000000000005'
+              - column:
+                  name: days_range_from
+                  valueNumeric: 31
+              - column:
+                  name: days_range_to
+                  valueNumeric: 40
+              - column:
+                  name: fixed_amount
+                  valueNumeric: 0.00
+              - column:
+                  name: rate
+                  valueNumeric: 4.70
+
+        - insert:
+            tableName: transfer_fee_rule
+            columns:
+              - column:
+                  name: id
+                  value: 'f1e2d3c4-0006-0006-0006-000000000006'
+              - column:
+                  name: days_range_from
+                  valueNumeric: 41
+              - column:
+                  name: days_range_to
+                  valueNumeric: 50
+              - column:
+                  name: fixed_amount
+                  valueNumeric: 0.00
+              - column:
+                  name: rate
+                  valueNumeric: 1.70

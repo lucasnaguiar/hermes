@@ -1,0 +1,100 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-seed-accounts
+      author: lucas
+      changes:
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: id
+                  value: 'a1b2c3d4-0001-0001-0001-000000000001'
+              - column:
+                  name: account_number
+                  value: '1234567890'
+              - column:
+                  name: balance
+                  valueNumeric: 10000.00
+              - column:
+                  name: committed_balance
+                  valueNumeric: 0.00
+
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: id
+                  value: 'a1b2c3d4-0002-0002-0002-000000000002'
+              - column:
+                  name: account_number
+                  value: '0987654321'
+              - column:
+                  name: balance
+                  valueNumeric: 5000.00
+              - column:
+                  name: committed_balance
+                  valueNumeric: 0.00
+
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: id
+                  value: 'a1b2c3d4-0003-0003-0003-000000000003'
+              - column:
+                  name: account_number
+                  value: '1122334455'
+              - column:
+                  name: balance
+                  valueNumeric: 25000.00
+              - column:
+                  name: committed_balance
+                  valueNumeric: 0.00
+
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: id
+                  value: 'a1b2c3d4-0004-0004-0004-000000000004'
+              - column:
+                  name: account_number
+                  value: '5566778899'
+              - column:
+                  name: balance
+                  valueNumeric: 1500.00
+              - column:
+                  name: committed_balance
+                  valueNumeric: 0.00
+
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: id
+                  value: 'a1b2c3d4-0005-0005-0005-000000000005'
+              - column:
+                  name: account_number
+                  value: '9988776655'
+              - column:
+                  name: balance
+                  valueNumeric: 50000.00
+              - column:
+                  name: committed_balance
+                  valueNumeric: 0.00
+
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: id
+                  value: 'a1b2c3d4-0006-0006-0006-000000000006'
+              - column:
+                  name: account_number
+                  value: '4433221100'
+              - column:
+                  name: balance
+                  valueNumeric: 7500.00
+              - column:
+                  name: committed_balance
+                  valueNumeric: 0.00
