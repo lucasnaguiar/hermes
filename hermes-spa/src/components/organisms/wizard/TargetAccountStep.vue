@@ -12,6 +12,10 @@ const { account, loading, error, lookup } = useAccountLookup()
 const accountNumber = ref(store.targetAccount?.accountNumber ?? '')
 
 async function next() {
+  if (accountNumber.value === store.sourceAccount?.accountNumber) {
+    error.value = 'A conta de destino deve ser diferente da conta de origem.'
+    return
+  }
   await lookup(accountNumber.value)
   if (account.value) {
     store.targetAccount = account.value

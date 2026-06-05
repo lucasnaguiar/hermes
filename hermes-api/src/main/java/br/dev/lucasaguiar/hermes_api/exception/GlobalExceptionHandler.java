@@ -25,6 +25,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
+    @ExceptionHandler(SameAccountTransferException.class)
+    public ResponseEntity<String> handleSameAccountTransfer(SameAccountTransferException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
     @ExceptionHandler(TransferScheduleNotFoundException.class)
     public ResponseEntity<String> handleTransferScheduleNotFound(TransferScheduleNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());

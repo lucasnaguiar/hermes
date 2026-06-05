@@ -10,6 +10,7 @@ import br.dev.lucasaguiar.hermes_api.dto.response.TransferSimulateResponse;
 import br.dev.lucasaguiar.hermes_api.exception.AccountNotFoundException;
 import br.dev.lucasaguiar.hermes_api.exception.DuplicateTransferException;
 import br.dev.lucasaguiar.hermes_api.exception.InsufficientBalanceException;
+import br.dev.lucasaguiar.hermes_api.exception.SameAccountTransferException;
 import br.dev.lucasaguiar.hermes_api.exception.TransferScheduleNotFoundException;
 import br.dev.lucasaguiar.hermes_api.repository.AccountRepository;
 import br.dev.lucasaguiar.hermes_api.repository.TransferScheduleRepository;
@@ -54,6 +55,10 @@ public class TransferSchedulingService {
 
     @Transactional(readOnly = true)
     public TransferSimulateResponse simulate(TransferRequest transferRequest) {
+        if (transferRequest.getSourceAccount().equals(transferRequest.getTargetAccount())) {
+            throw new SameAccountTransferException();
+        }
+
         Account sourceAccount = accountRepository.findByAccountNumber(transferRequest.getSourceAccount())
             .orElseThrow(() -> new AccountNotFoundException(transferRequest.getSourceAccount()));
         Account targetAccount = accountRepository.findByAccountNumber(transferRequest.getTargetAccount())
@@ -79,6 +84,10 @@ public class TransferSchedulingService {
 
     @Transactional
     public void schedule(TransferRequest transferRequest) {
+        if (transferRequest.getSourceAccount().equals(transferRequest.getTargetAccount())) {
+            throw new SameAccountTransferException();
+        }
+
         LocalDateTime now = LocalDateTime.now();
 
         Account sourceAccount = accountRepository.findByAccountNumber(transferRequest.getSourceAccount()).orElseThrow(() -> new AccountNotFoundException(transferRequest.getSourceAccount()));
