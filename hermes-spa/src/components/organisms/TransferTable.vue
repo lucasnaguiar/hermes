@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted, h } from 'vue'
+import { ref, reactive, onMounted, h, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   NDataTable,
@@ -11,6 +11,8 @@ import {
   NDrawerContent,
   NSpace,
   NIcon,
+  NCard,
+  NPagination,
 } from 'naive-ui'
 import { FilterOutline } from '@vicons/ionicons5'
 import type { DataTableColumns, PaginationProps } from 'naive-ui'
@@ -135,6 +137,14 @@ function clearFilters() {
   fetchData()
 }
 
+const mobilePage = computed({
+  get: () => pagination.page ?? 1,
+  set: (val: number) => {
+    pagination.page = val
+    fetchData()
+  },
+})
+
 onMounted(fetchData)
 </script>
 
@@ -161,14 +171,68 @@ onMounted(fetchData)
     <n-alert v-if="error" type="error">{{ error }}</n-alert>
 
     <n-spin :show="loading">
-      <n-data-table
-        remote
-        :columns="columns"
-        :data="data"
-        :pagination="pagination"
-        :bordered="true"
-        :scroll-x="800"
-      />
+      <!-- Desktop: tabela -->
+      <div class="hidden md:block">
+        <n-data-table
+          remote
+          :columns="columns"
+          :data="data"
+          :pagination="pagination"
+          :bordered="true"
+          :scroll-x="800"
+        />
+      </div>
+
+      <!-- Mobile: cards -->
+      <div class="flex flex-col gap-3 md:hidden">
+        <n-card
+          v-for="transfer in data"
+          :key="transfer.id"
+          size="small"
+          hoverable
+          class="cursor-pointer"
+          @click="router.push({ name: 'transfer-detail', params: { id: transfer.id } })"
+        >
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <div class="flex flex-col gap-0.5">
+              <span class="text-xs text-gray-400">Origem → Destino</span>
+              <span class="font-medium text-sm">
+                {{ transfer.sourceAccount }} → {{ transfer.targetAccount }}
+              </span>
+            </div>
+            <base-badge :status="transfer.status" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-y-2 gap-x-4 text-sm">
+            <div class="flex flex-col">
+              <span class="text-xs text-gray-400">Valor</span>
+              <currency-display :value="transfer.transferAmount" :highlight="true" />
+            </div>
+            <div class="flex flex-col">
+              <span class="text-xs text-gray-400">Taxa</span>
+              <currency-display :value="transfer.feeAmount" />
+            </div>
+            <div class="flex flex-col">
+              <span class="text-xs text-gray-400">Data transferência</span>
+              <span>{{ formatDate(transfer.transferDate) }}</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-xs text-gray-400">Data agendamento</span>
+              <span>{{ formatDate(transfer.schedulingDate) }}</span>
+            </div>
+          </div>
+        </n-card>
+
+        <div v-if="!loading && data.length === 0" class="text-center text-gray-400 py-8">
+          Nenhum agendamento encontrado.
+        </div>
+
+        <n-pagination
+          v-model:page="mobilePage"
+          :page-count="Math.ceil((pagination.itemCount ?? 0) / (pagination.pageSize ?? 10))"
+          class="justify-center"
+        />
+      </div>
     </n-spin>
 
     <!-- Filter drawer -->
