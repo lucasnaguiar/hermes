@@ -9,7 +9,14 @@ API_PID=$!
 cd "$SCRIPT_DIR/hermes-spa" && [ ! -d node_modules ] && npm install; npm run dev &
 SPA_PID=$!
 
-trap "kill $API_PID $SPA_PID" SIGINT SIGTERM
+cleanup() {
+  pkill -P $API_PID 2>/dev/null
+  kill $API_PID 2>/dev/null
+  pkill -P $SPA_PID 2>/dev/null
+  kill $SPA_PID 2>/dev/null
+}
+
+trap cleanup SIGINT SIGTERM
 
 echo ""
 echo "SPA disponível em http://localhost:$SPA_PORT"
