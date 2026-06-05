@@ -80,6 +80,18 @@ São testes que cobrem apenas as services mais importantes, do agendamento e do 
 - Java 11+
 - Node.js 18+
 
+### Execução simplificada
+
+Normalmente containerizaria a aplicação com Docker para simplificar o setup, mas optei por manter a execução local para não aumentar a complexidade além do que foi solicitado no teste.
+
+Há um script na raiz do projeto que sobe a API e a SPA em paralelo com um único comando.
+
+```bash
+./start.sh
+```
+
+`Ctrl+C` encerra os dois processos juntos.
+
 ### API
 
 ```bash
