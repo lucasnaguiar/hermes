@@ -17,6 +17,11 @@ const router = createRouter({
       name: 'transfers',
       component: () => import('../views/TransfersView.vue'),
     },
+    {
+      path: '/transferencia-agendada/:id',
+      name: 'transfer-detail',
+      component: () => import('../views/TransferDetailView.vue'),
+    },
   ],
 })
 

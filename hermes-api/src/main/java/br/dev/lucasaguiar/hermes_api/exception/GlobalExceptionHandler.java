@@ -25,6 +25,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
+    @ExceptionHandler(TransferScheduleNotFoundException.class)
+    public ResponseEntity<String> handleTransferScheduleNotFound(TransferScheduleNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
     @ExceptionHandler(NoApplicableFeeRuleException.class)
     public ResponseEntity<String> handleNoFeeToThisPeriod(NoApplicableFeeRuleException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());

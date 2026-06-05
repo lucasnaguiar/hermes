@@ -16,6 +16,10 @@ export const transferService = {
     return http.post('/transfers', request).then(() => undefined)
   },
 
+  findById(id: string): Promise<TransferScheduleResponse> {
+    return http.get<TransferScheduleResponse>(`/transfers/${id}`).then((r) => r.data)
+  },
+
   list(params: TransferListParams = {}): Promise<Page<TransferScheduleResponse>> {
     return http
       .get<Page<TransferScheduleResponse>>('/transfers', { params })

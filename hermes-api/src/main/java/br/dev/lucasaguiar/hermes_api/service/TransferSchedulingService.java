@@ -10,10 +10,12 @@ import br.dev.lucasaguiar.hermes_api.dto.response.TransferSimulateResponse;
 import br.dev.lucasaguiar.hermes_api.exception.AccountNotFoundException;
 import br.dev.lucasaguiar.hermes_api.exception.DuplicateTransferException;
 import br.dev.lucasaguiar.hermes_api.exception.InsufficientBalanceException;
+import br.dev.lucasaguiar.hermes_api.exception.TransferScheduleNotFoundException;
 import br.dev.lucasaguiar.hermes_api.repository.AccountRepository;
 import br.dev.lucasaguiar.hermes_api.repository.TransferScheduleRepository;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
@@ -41,6 +43,13 @@ public class TransferSchedulingService {
         return transferScheduleRepository
             .findAllByFilters(sourceAccountNumber, targetAccountNumber, pageable)
             .map(TransferScheduleResponse::from);
+    }
+
+    @Transactional(readOnly = true)
+    public TransferScheduleResponse findById(UUID id) {
+        return transferScheduleRepository.findById(id)
+            .map(TransferScheduleResponse::from)
+            .orElseThrow(() -> new TransferScheduleNotFoundException(id));
     }
 
     @Transactional(readOnly = true)
