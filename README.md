@@ -7,7 +7,7 @@ mais moderna e atual. Tenho experiência também com Vue 2 e Options API.
 
 ## Stack
 
-O teste solicitou Java 11 e Spring Boot 2.7, então essas foram as versões base do projeto.
+O teste solicitou Java 11 por isso usei o Spring Boot 2.7, então essas foram as versões base do projeto.
 
 Para persistência usei Spring Data JPA como abstração da camada de repositório, com H2 como banco 
 in-memory conforme solicitado, sem dependências externas para facilitar o setup local.
@@ -16,6 +16,9 @@ O versionamento do banco e os seeds iniciais são gerenciados pelo Liquibase, co
 
 Utilizei Lombok para redução de boilerplate em entidades e DTOs, e Spring Validation para validação 
 declarativa nas requisições com Bean Validation.
+
+- Java 11 · Spring Boot 2.7 · Liquibase · H2 · Lombok
+- Vue 3 · TypeScript · Vite · Pinia · Vue Router · Naive UI · Tailwind CSS 4
 
 ## Decisões arquiteturais
 
