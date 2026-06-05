@@ -6,7 +6,7 @@ SPA_PORT="${VITE_PORT:-5180}"
 cd "$SCRIPT_DIR/hermes-api" && ./mvnw spring-boot:run &
 API_PID=$!
 
-cd "$SCRIPT_DIR/hermes-spa" && npm run dev &
+cd "$SCRIPT_DIR/hermes-spa" && [ ! -d node_modules ] && npm install; npm run dev &
 SPA_PID=$!
 
 trap "kill $API_PID $SPA_PID" SIGINT SIGTERM
