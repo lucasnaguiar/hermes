@@ -5,6 +5,7 @@ import br.dev.lucasaguiar.hermes_api.domain.AppliedFeeSnapshot;
 import br.dev.lucasaguiar.hermes_api.domain.TransferSchedule;
 import br.dev.lucasaguiar.hermes_api.domain.TransferStatus;
 import br.dev.lucasaguiar.hermes_api.dto.request.TransferRequest;
+import br.dev.lucasaguiar.hermes_api.dto.response.TransferScheduleResponse;
 import br.dev.lucasaguiar.hermes_api.exception.AccountNotFoundException;
 import br.dev.lucasaguiar.hermes_api.exception.DuplicateTransferException;
 import br.dev.lucasaguiar.hermes_api.exception.InsufficientBalanceException;
@@ -15,9 +16,11 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,17 @@ public class TransferSchedulingService {
     private final TransferScheduleRepository transferScheduleRepository;
     private final AccountRepository accountRepository;
     private final FeeCalculationService feeCalculationService;
+
+    @Transactional(readOnly = true)
+    public Page<TransferScheduleResponse> list(
+        String sourceAccountNumber,
+        String targetAccountNumber,
+        Pageable pageable
+    ) {
+        return transferScheduleRepository
+            .findAllByFilters(sourceAccountNumber, targetAccountNumber, pageable)
+            .map(TransferScheduleResponse::from);
+    }
 
     @Transactional
     public void schedule(TransferRequest transferRequest) {
