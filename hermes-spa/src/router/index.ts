@@ -5,12 +5,17 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/dashboard',
+      redirect: '/schedule',
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('../views/DashboardView.vue'),
+      path: '/schedule',
+      name: 'schedule',
+      component: () => import('../views/ScheduleView.vue'),
+    },
+    {
+      path: '/transfers',
+      name: 'transfers',
+      component: () => import('../views/TransfersView.vue'),
     },
   ],
 })
