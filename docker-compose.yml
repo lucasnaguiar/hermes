@@ -1,0 +1,22 @@
+services:
+  hermes-api:
+    build: ./hermes-api
+    container_name: hermes-api
+    ports:
+      - "8090:8090"
+    networks:
+      - hermes-network
+
+  hermes-spa:
+    build: ./hermes-spa
+    container_name: hermes-spa
+    ports:
+      - "5180:80"
+    depends_on:
+      - hermes-api
+    networks:
+      - hermes-network
+
+networks:
+  hermes-network:
+    driver: bridge

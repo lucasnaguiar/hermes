@@ -81,11 +81,12 @@ São testes que cobrem apenas as services mais importantes, do agendamento e do 
 ### Pré-requisitos
 
 - Java 11+
-- Node.js 18+
+- Node.js 22+
 
 ### Execução simplificada
 
-Normalmente containerizaria a aplicação com Docker para simplificar o setup, mas optei por manter a execução local para não aumentar a complexidade além do que foi solicitado no teste.
+Também disponibilizei a execução via Docker Compose, ainda que focado na execucao em desenvolvimento local usando H2, 
+as instruções estão no final deste arquivo. Para execução local, o script abaixo é suficiente.
 
 Alterei as portas padrões para evitar conflitos na execução caso as portas ja estejam em uso.
 
@@ -141,3 +142,14 @@ Executar testes unitários:
 ```bash
 ./mvnw test
 ```
+
+## Rodando com Docker (Opcional)
+
+Caso prefira não configurar o ambiente local, é possível executar a aplicação inteira com Docker.
+
+```bash
+docker compose up --build
+```
+
+A SPA fica disponível em `http://localhost:5180`. A API pode ser acessada diretamente em 
+`http://localhost:8090/api/v1`, incluindo o console do H2 em `http://localhost:8090/api/v1/h2-console`.
