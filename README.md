@@ -68,6 +68,11 @@ negócio (4xx) são tratados inline em cada componente. Essa centralização tam
 a implementação de autenticação futuramente, onde o interceptor seria o ponto natural para anexar 
 tokens nas requisições e tratar respostas 401, trabalhando em conjunto com cookies httpOnly. 
 
+Os testes unitários foram implementados ao final, após a conclusão de tudo que foi descrito nos requisitos do desafio. 
+A decisão foi priorizar a entrega do que foi explicitamente solicitado antes de adicionar cobertura de testes, 
+que apesar de eu considerar ser uma boa prática, não estava entre os critérios descritos e eu queria garantir o prazo. 
+São testes que cobrem apenas as services mais importantes, do agendamento e do calculo da taxa.
+
 ## Rodando localmente
 
 ### Pré-requisitos
@@ -112,3 +117,9 @@ O banco é populado automaticamente com as seguintes contas:
 | 9988776655 | R$ 50.000,00 |
 | 4433221100 | R$ 7.500,00 |
 
+
+Executar testes unitários:
+
+```bash
+./mvnw test
+```
