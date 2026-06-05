@@ -19,7 +19,7 @@ public class FeeCalculationService {
         this.transferFeeRuleRepository = transferFeeRuleRepository;
     }
 
-    AppliedFeeSnapshot calculateTransferFee(BigDecimal transferAmount, LocalDate transferDate) {
+    public AppliedFeeSnapshot calculateTransferFee(BigDecimal transferAmount, LocalDate transferDate) {
         int days = (int) ChronoUnit.DAYS.between(LocalDate.now(), transferDate);
 
         TransferFeeRule rule = transferFeeRuleRepository.findApplicableRule(days).orElseThrow(() -> new NoApplicableFeeRuleException(days));

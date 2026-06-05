@@ -2,6 +2,7 @@ package br.dev.lucasaguiar.hermes_api.controller;
 
 import br.dev.lucasaguiar.hermes_api.dto.request.TransferRequest;
 import br.dev.lucasaguiar.hermes_api.dto.response.TransferScheduleResponse;
+import br.dev.lucasaguiar.hermes_api.dto.response.TransferSimulateResponse;
 import br.dev.lucasaguiar.hermes_api.service.TransferSchedulingService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,11 @@ public class TransferScheduleController {
         return ResponseEntity.ok(
             transferSchedulingService.list(sourceAccount, targetAccount, pageable)
         );
+    }
+
+    @PostMapping("/simulate")
+    public ResponseEntity<TransferSimulateResponse> simulate(@Valid @RequestBody TransferRequest request) {
+        return ResponseEntity.ok(transferSchedulingService.simulate(request));
     }
 
     @PostMapping("")

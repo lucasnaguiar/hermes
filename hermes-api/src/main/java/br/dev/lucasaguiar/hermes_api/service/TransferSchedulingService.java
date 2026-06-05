@@ -6,6 +6,7 @@ import br.dev.lucasaguiar.hermes_api.domain.TransferSchedule;
 import br.dev.lucasaguiar.hermes_api.domain.TransferStatus;
 import br.dev.lucasaguiar.hermes_api.dto.request.TransferRequest;
 import br.dev.lucasaguiar.hermes_api.dto.response.TransferScheduleResponse;
+import br.dev.lucasaguiar.hermes_api.dto.response.TransferSimulateResponse;
 import br.dev.lucasaguiar.hermes_api.exception.AccountNotFoundException;
 import br.dev.lucasaguiar.hermes_api.exception.DuplicateTransferException;
 import br.dev.lucasaguiar.hermes_api.exception.InsufficientBalanceException;
@@ -40,6 +41,31 @@ public class TransferSchedulingService {
         return transferScheduleRepository
             .findAllByFilters(sourceAccountNumber, targetAccountNumber, pageable)
             .map(TransferScheduleResponse::from);
+    }
+
+    @Transactional(readOnly = true)
+    public TransferSimulateResponse simulate(TransferRequest transferRequest) {
+        Account sourceAccount = accountRepository.findByAccountNumber(transferRequest.getSourceAccount())
+            .orElseThrow(() -> new AccountNotFoundException(transferRequest.getSourceAccount()));
+        Account targetAccount = accountRepository.findByAccountNumber(transferRequest.getTargetAccount())
+            .orElseThrow(() -> new AccountNotFoundException(transferRequest.getTargetAccount()));
+
+        if (sourceAccount.getAvailableBalance().compareTo(transferRequest.getTransferAmount()) < 0) {
+            throw new InsufficientBalanceException();
+        }
+
+        AppliedFeeSnapshot feeSnapshot = feeCalculationService.calculateTransferFee(
+            transferRequest.getTransferAmount(),
+            transferRequest.getTransferDate()
+        );
+
+        return TransferSimulateResponse.from(
+            sourceAccount.getAccountNumber(),
+            targetAccount.getAccountNumber(),
+            transferRequest.getTransferAmount(),
+            transferRequest.getTransferDate(),
+            feeSnapshot
+        );
     }
 
     @Transactional
