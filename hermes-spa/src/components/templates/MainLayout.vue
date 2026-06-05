@@ -7,7 +7,9 @@ import TheNavbar from '../organisms/TheNavbar.vue'
   <n-layout class="min-h-screen">
     <the-navbar />
     <n-layout-content class="px-4 py-6 md:px-8 md:py-10">
-      <slot />
+      <div class="max-w-5xl mx-auto w-full">
+        <slot />
+      </div>
     </n-layout-content>
   </n-layout>
 </template>

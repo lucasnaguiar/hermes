@@ -19,3 +19,6 @@ server:
   port: 8080
   servlet:
     context-path: /api/v1
+
+cors:
+  allowed-origins: http://localhost:5173

@@ -27,32 +27,34 @@ function renderIcon(icon: Component) {
 </script>
 
 <template>
-  <n-layout-header bordered class="px-4 md:px-8 flex items-center justify-between h-16">
-    <span class="text-lg font-semibold tracking-wide">Hermes</span>
+  <n-layout-header bordered class="h-16">
+    <div class="max-w-5xl mx-auto w-full h-full px-4 md:px-8 flex items-center justify-between">
+      <span class="text-lg font-semibold tracking-wide">Hermes</span>
 
-    <!-- Desktop menu -->
-    <div class="hidden md:flex flex-1 justify-end">
-      <n-menu
-        :value="activeKey"
-        :options="menuOptions"
-        mode="horizontal"
-        @update:value="handleSelect"
-      />
+      <!-- Desktop menu -->
+      <div class="hidden md:flex flex-1 justify-end">
+        <n-menu
+          :value="activeKey"
+          :options="menuOptions"
+          mode="horizontal"
+          @update:value="handleSelect"
+        />
+      </div>
+
+      <!-- Mobile hamburger -->
+      <n-button
+        class="flex md:hidden"
+        quaternary
+        circle
+        @click="drawerOpen = true"
+      >
+        <template #icon>
+          <n-icon size="22">
+            <menu-outline />
+          </n-icon>
+        </template>
+      </n-button>
     </div>
-
-    <!-- Mobile hamburger -->
-    <n-button
-      class="flex md:hidden"
-      quaternary
-      circle
-      @click="drawerOpen = true"
-    >
-      <template #icon>
-        <n-icon size="22">
-          <menu-outline />
-        </n-icon>
-      </template>
-    </n-button>
   </n-layout-header>
 
   <!-- Mobile drawer -->
