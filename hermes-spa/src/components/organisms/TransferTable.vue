@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted, h, watch } from 'vue'
+import { ref, reactive, onMounted, h } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   NDataTable,

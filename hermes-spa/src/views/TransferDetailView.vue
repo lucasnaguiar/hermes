@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { NSkeleton, NAlert, NSpace } from 'naive-ui'
+import { NSkeleton, NAlert } from 'naive-ui'
 import MainLayout from '../components/templates/MainLayout.vue'
 import TransferDetailCard from '../components/molecules/TransferDetailCard.vue'
 import BaseButton from '../components/atoms/BaseButton.vue'
@@ -42,15 +42,12 @@ onMounted(async () => {
       </div>
 
       <!-- Erro -->
-      <n-alert v-else-if="error" type="error" :title="error">
-        <template #footer>
-          <n-space>
-            <base-button @click="$router.push({ name: 'transfers' })">
-              Ver todos os agendamentos
-            </base-button>
-          </n-space>
-        </template>
-      </n-alert>
+      <div v-else-if="error" class="flex flex-col gap-4">
+        <n-alert type="error" :title="error" />
+        <base-button @click="$router.push({ name: 'transfers' })">
+          Ver todos os agendamentos
+        </base-button>
+      </div>
 
       <!-- Detalhe -->
       <transfer-detail-card v-else-if="transfer" :transfer="transfer" />

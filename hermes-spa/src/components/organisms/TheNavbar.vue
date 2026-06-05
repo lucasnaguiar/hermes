@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, h } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { NLayoutHeader, NMenu, NButton, NDrawer, NDrawerContent, NIcon } from 'naive-ui'
-import { MenuOutline, CloseOutline } from '@vicons/ionicons5'
+import { MenuOutline } from '@vicons/ionicons5'
 import type { MenuOption } from 'naive-ui'
 
 const route = useRoute()
@@ -19,10 +19,6 @@ const activeKey = computed(() => route.name as string)
 function handleSelect(key: string) {
   router.push({ name: key })
   drawerOpen.value = false
-}
-
-function renderIcon(icon: Component) {
-  return () => h(NIcon, null, { default: () => h(icon) })
 }
 </script>
 
