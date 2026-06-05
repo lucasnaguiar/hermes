@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,6 +39,6 @@ public class TransferScheduleController {
     @PostMapping("")
     public ResponseEntity<String> store(@Valid @RequestBody TransferRequest request) {
         transferSchedulingService.schedule(request);
-        return ResponseEntity.ok("Hello");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Transfer scheduled successfully");
     }
 }

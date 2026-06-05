@@ -2,7 +2,6 @@ package br.dev.lucasaguiar.hermes_api.exception;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.hibernate.DuplicateMappingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,7 +31,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DuplicateTransferException.class)
-    public ResponseEntity<String> handleDuplicateTransferException(DuplicateMappingException ex) {
+    public ResponseEntity<String> handleDuplicateTransferException(DuplicateTransferException ex) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(ex.getMessage());
     }
 
