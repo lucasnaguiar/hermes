@@ -3,12 +3,16 @@ import { ref, reactive, onMounted, h } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   NDataTable,
-  NSpace,
   NInput,
   NButton,
   NSpin,
   NAlert,
+  NDrawer,
+  NDrawerContent,
+  NSpace,
+  NIcon,
 } from 'naive-ui'
+import { FilterOutline } from '@vicons/ionicons5'
 import type { DataTableColumns, PaginationProps } from 'naive-ui'
 import BaseBadge from '../atoms/BaseBadge.vue'
 import CurrencyDisplay from '../atoms/CurrencyDisplay.vue'
@@ -20,8 +24,12 @@ const router = useRouter()
 const data = ref<TransferScheduleResponse[]>([])
 const loading = ref(false)
 const error = ref('')
+const filterDrawerOpen = ref(false)
 
 const filters = reactive({ sourceAccount: '', targetAccount: '' })
+const appliedFilters = reactive({ sourceAccount: '', targetAccount: '' })
+
+const hasActiveFilters = ref(false)
 
 const pagination = reactive<PaginationProps>({
   page: 1,
@@ -93,8 +101,8 @@ async function fetchData() {
   error.value = ''
   try {
     const result = await transferService.list({
-      sourceAccount: filters.sourceAccount || undefined,
-      targetAccount: filters.targetAccount || undefined,
+      sourceAccount: appliedFilters.sourceAccount || undefined,
+      targetAccount: appliedFilters.targetAccount || undefined,
       page: (pagination.page ?? 1) - 1,
       size: pagination.pageSize,
     })
@@ -108,14 +116,22 @@ async function fetchData() {
 }
 
 function applyFilters() {
+  appliedFilters.sourceAccount = filters.sourceAccount
+  appliedFilters.targetAccount = filters.targetAccount
+  hasActiveFilters.value = !!(filters.sourceAccount || filters.targetAccount)
   pagination.page = 1
+  filterDrawerOpen.value = false
   fetchData()
 }
 
 function clearFilters() {
   filters.sourceAccount = ''
   filters.targetAccount = ''
+  appliedFilters.sourceAccount = ''
+  appliedFilters.targetAccount = ''
+  hasActiveFilters.value = false
   pagination.page = 1
+  filterDrawerOpen.value = false
   fetchData()
 }
 
@@ -124,28 +140,22 @@ onMounted(fetchData)
 
 <template>
   <div class="flex flex-col gap-4">
-    <!-- Filters -->
-    <div class="flex flex-col md:flex-row gap-3">
-      <n-input
-        v-model:value="filters.sourceAccount"
-        placeholder="Filtrar por conta origem"
-        maxlength="10"
-        clearable
-        class="md:max-w-60"
-        @keyup.enter="applyFilters"
-      />
-      <n-input
-        v-model:value="filters.targetAccount"
-        placeholder="Filtrar por conta destino"
-        maxlength="10"
-        clearable
-        class="md:max-w-60"
-        @keyup.enter="applyFilters"
-      />
-      <n-space>
-        <n-button type="primary" @click="applyFilters">Filtrar</n-button>
-        <n-button @click="clearFilters">Limpar</n-button>
-      </n-space>
+    <!-- Toolbar -->
+    <div class="flex items-center justify-between">
+      <n-button
+        :type="hasActiveFilters ? 'primary' : 'default'"
+        @click="filterDrawerOpen = true"
+      >
+        <template #icon>
+          <n-icon><filter-outline /></n-icon>
+        </template>
+        Filtrar
+        <span v-if="hasActiveFilters" class="ml-1 text-xs opacity-80">(ativo)</span>
+      </n-button>
+
+      <n-button v-if="hasActiveFilters" quaternary @click="clearFilters">
+        Limpar filtros
+      </n-button>
     </div>
 
     <n-alert v-if="error" type="error">{{ error }}</n-alert>
@@ -160,5 +170,41 @@ onMounted(fetchData)
         :scroll-x="800"
       />
     </n-spin>
+
+    <!-- Filter drawer -->
+    <n-drawer v-model:show="filterDrawerOpen" placement="right" :width="300">
+      <n-drawer-content title="Filtros" closable>
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-1">
+            <span class="text-sm text-gray-500">Conta origem</span>
+            <n-input
+              v-model:value="filters.sourceAccount"
+              placeholder="Ex: 1234567890"
+              maxlength="10"
+              clearable
+              @keyup.enter="applyFilters"
+            />
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <span class="text-sm text-gray-500">Conta destino</span>
+            <n-input
+              v-model:value="filters.targetAccount"
+              placeholder="Ex: 0987654321"
+              maxlength="10"
+              clearable
+              @keyup.enter="applyFilters"
+            />
+          </div>
+        </div>
+
+        <template #footer>
+          <n-space justify="end" class="w-full">
+            <n-button @click="clearFilters">Limpar</n-button>
+            <n-button type="primary" @click="applyFilters">Aplicar</n-button>
+          </n-space>
+        </template>
+      </n-drawer-content>
+    </n-drawer>
   </div>
 </template>
