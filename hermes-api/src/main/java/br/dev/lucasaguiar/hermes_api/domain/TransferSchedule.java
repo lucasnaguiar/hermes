@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -37,11 +38,14 @@ public class TransferSchedule {
     @Column(name = "scheduling_date", nullable = false)
     private LocalDate schedulingDate;
 
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private TransferStatus status;
 
-    @Column(nullable = false, length = 64, unique = true)
+    @Column(nullable = false, length = 64)
     private String fingerprint;
 
     @Embedded

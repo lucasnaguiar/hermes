@@ -1,6 +1,7 @@
 package br.dev.lucasaguiar.hermes_api.repository;
 
 import br.dev.lucasaguiar.hermes_api.domain.TransferSchedule;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface TransferScheduleRepository extends JpaRepository<TransferSchedule, UUID> {
-    boolean existsByFingerprint(String transferFingerprint);
+    boolean existsByFingerprintAndCreatedAtAfter(String transferFingerprint, LocalDateTime createdAt);
 
     @EntityGraph(attributePaths = {"sourceAccount", "targetAccount"})
     @Query(

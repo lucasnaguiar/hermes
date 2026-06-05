@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,12 +44,17 @@ public class TransferSchedulingService {
 
     @Transactional
     public void schedule(TransferRequest transferRequest) {
+        LocalDateTime now = LocalDateTime.now();
+
         Account sourceAccount = accountRepository.findByAccountNumber(transferRequest.getSourceAccount()).orElseThrow(() -> new AccountNotFoundException(transferRequest.getSourceAccount()));
         Account targetAccount = accountRepository.findByAccountNumber(transferRequest.getTargetAccount()).orElseThrow(() ->new AccountNotFoundException(transferRequest.getTargetAccount()));
 
         String fingerprint = generateFingerprint(sourceAccount.getAccountNumber(), targetAccount.getAccountNumber(), transferRequest.getTransferAmount(), transferRequest.getTransferDate());
 
-        if (transferScheduleRepository.existsByFingerprint(fingerprint)) {
+        if (transferScheduleRepository.existsByFingerprintAndCreatedAtAfter(
+            fingerprint,
+            now.minusMinutes(1)
+        )) {
             throw new DuplicateTransferException();
         }
 
@@ -70,7 +76,8 @@ public class TransferSchedulingService {
         schedule.setTargetAccount(targetAccount);
         schedule.setTransferAmount(transferRequest.getTransferAmount());
         schedule.setTransferDate(transferRequest.getTransferDate());
-        schedule.setSchedulingDate(LocalDate.now());
+        schedule.setSchedulingDate(now.toLocalDate());
+        schedule.setCreatedAt(now);
         schedule.setStatus(TransferStatus.SCHEDULED);
         schedule.setFingerprint(fingerprint);
         schedule.setAppliedFee(feeSnapshot);

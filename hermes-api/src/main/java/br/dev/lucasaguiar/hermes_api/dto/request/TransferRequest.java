@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -25,7 +25,6 @@ public class TransferRequest {
     private BigDecimal transferAmount;
 
     @NotNull
-    @Future(message = "Transfer date must be in the future")
+    @FutureOrPresent(message = "Transfer date must be today or in the future")
     private LocalDate transferDate;
 }
-
