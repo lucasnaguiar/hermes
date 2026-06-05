@@ -87,7 +87,10 @@ São testes que cobrem apenas as services mais importantes, do agendamento e do 
 
 Normalmente containerizaria a aplicação com Docker para simplificar o setup, mas optei por manter a execução local para não aumentar a complexidade além do que foi solicitado no teste.
 
+Alterei as portas padrões para evitar conflitos na execução caso as portas ja estejam em uso.
+
 Há um script na raiz do projeto que sobe a API e a SPA em paralelo com um único comando.
+
 
 ```bash
 ./start.sh
@@ -102,9 +105,9 @@ cd hermes-api
 ./mvnw spring-boot:run
 ```
 
-A API sobe em `http://localhost:8080/api/v1`.
+A API sobe em `http://localhost:8090/api/v1`. A porta pode ser alterada via variável de ambiente `SERVER_PORT`.
 
-O console do H2 fica disponível em `http://localhost:8080/api/v1/h2-console` com as credenciais:
+O console do H2 fica disponível em `http://localhost:8090/api/v1/h2-console` com as credenciais:
 - **JDBC URL:** `jdbc:h2:mem:hermes`
 - **Usuário:** `sa`
 - **Senha:** _(vazio)_
@@ -117,7 +120,7 @@ npm install
 npm run dev
 ```
 
-A aplicação abre em `http://localhost:5173`.
+A aplicação abre em `http://localhost:5180`. A porta pode ser alterada via variável de ambiente `VITE_PORT`.
 
 ### Contas disponíveis para teste
 

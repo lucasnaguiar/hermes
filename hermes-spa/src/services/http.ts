@@ -4,7 +4,7 @@ import { createDiscreteApi } from 'naive-ui'
 const { notification } = createDiscreteApi(['notification'])
 
 const http = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api/v1',
+  baseURL: import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8090/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
